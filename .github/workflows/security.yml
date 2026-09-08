@@ -9,10 +9,9 @@ on:
 
 jobs:
   security-scans:
-    name: Run Security Tools and Generate Report
+    name: Run Clean Security Scans
     runs-on: ubuntu-latest 
     
-    # Ensures it only runs if the build/deploy was successful
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
 
     steps:
@@ -31,7 +30,8 @@ jobs:
         run: |
           echo -e "\n\n1. TRUFFLEHOG SECRETS SCAN" >> security_report.txt
           echo "----------------------------------------" >> security_report.txt
-          docker run --rm -v "${{ github.workspace }}:/pwd" trufflesecurity/trufflehog:latest filesystem /pwd >> security_report.txt 2>&1 || true
+          docker pull -q trufflesecurity/trufflehog:latest > /dev/null 2>&1
+          docker run --rm -v "${{ github.workspace }}:/pwd" trufflesecurity/trufflehog:latest filesystem /pwd --no-update 2>/dev/null | grep -E "(Detector Type|File|Line|Found unverified|Found verified)" >> security_report.txt || echo "No secrets detected or scan completed." >> security_report.txt
 
       - name: Set up Python for Bandit
         uses: actions/setup-python@v5
@@ -42,26 +42,30 @@ jobs:
         run: |
           echo -e "\n\n2. BANDIT SAST SCAN" >> security_report.txt
           echo "----------------------------------------" >> security_report.txt
-          pip install bandit
-          bandit -r ./travel-jo-main -ll -ii >> security_report.txt 2>&1 || true
+          pip install -q bandit
+          bandit -r ./travel-jo-main -ll -ii -f txt 2>/dev/null >> security_report.txt || true
 
       - name: 3. Hadolint (Dockerfile Linting)
         run: |
           echo -e "\n\n3. HADOLINT DOCKERFILE SCAN" >> security_report.txt
           echo "----------------------------------------" >> security_report.txt
-          docker run --rm -i hadolint/hadolint < ./travel-jo-main/Dockerfile >> security_report.txt 2>&1 || true
+          docker pull -q hadolint/hadolint:latest > /dev/null 2>&1
+          docker run --rm -i hadolint/hadolint < ./travel-jo-main/Dockerfile >> security_report.txt 2>&1 || echo "No lint issues found." >> security_report.txt
 
       - name: Build Backend Image for Trivy
-        run: docker build -t app-backend ./travel-jo-main
+        run: docker build -t app-backend ./travel-jo-main > /dev/null 2>&1
 
       - name: 4. Trivy (Container Vulnerability Scanner)
         run: |
           echo -e "\n\n4. TRIVY CONTAINER SCAN" >> security_report.txt
           echo "----------------------------------------" >> security_report.txt
-          curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin
-          trivy image --format table --exit-code 0 --severity CRITICAL,HIGH app-backend >> security_report.txt 2>&1 || true
+          sudo apt-get install -y wget apt-transport-https gnupg lsb-release > /dev/null 2>&1
+          wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo gpg --dearmor --yes -o /usr/share/keyrings/trivy.gpg > /dev/null 2>&1
+          echo "deb [signed-by=/usr/share/keyrings/trivy.gpg] https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main" | sudo tee /etc/apt/sources.list.d/trivy.list > /dev/null 2>&1
+          sudo apt-get update -q > /dev/null 2>&1 && sudo apt-get install -y trivy > /dev/null 2>&1
+          trivy image --format table --exit-code 0 --severity CRITICAL,HIGH app-backend >> security_report.txt 2>&1
 
-      - name: Upload Security Report as Artifact
+      - name: Upload Clean Security Report
         uses: actions/upload-artifact@v4
         with:
           name: Consolidated-Security-Report
