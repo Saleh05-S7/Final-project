@@ -1,0 +1,64 @@
+name: Security Scanning Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  security-scans:
+    name: Run Security Tools and Generate Report
+    runs-on: ubuntu-latest 
+
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Initialize Report File
+        run: |
+          echo "========================================" > security_report.txt
+          echo "      FINAL PROJECT SECURITY REPORT     " >> security_report.txt
+          echo "========================================" >> security_report.txt
+
+      - name: 1. TruffleHog (Secret Scanning)
+        run: |
+          echo -e "\n\n1. TRUFFLEHOG SECRETS SCAN" >> security_report.txt
+          echo "----------------------------------------" >> security_report.txt
+          docker run --rm -v "${{ github.workspace }}:/pwd" trufflesecurity/trufflehog:latest filesystem /pwd >> security_report.txt 2>&1 || true
+
+      - name: Set up Python for Bandit
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: 2. Bandit (Python SAST)
+        run: |
+          echo -e "\n\n2. BANDIT SAST SCAN" >> security_report.txt
+          echo "----------------------------------------" >> security_report.txt
+          pip install bandit
+          bandit -r . -ll -ii >> security_report.txt 2>&1 || true
+
+      - name: 3. Hadolint (Dockerfile Linting)
+        run: |
+          echo -e "\n\n3. HADOLINT DOCKERFILE SCAN" >> security_report.txt
+          echo "----------------------------------------" >> security_report.txt
+          docker run --rm -i hadolint/hadolint < ./backend/Dockerfile >> security_report.txt 2>&1 || true
+
+      - name: Build Backend Image for Trivy
+        run: docker build -t app-backend ./backend
+
+      - name: 4. Trivy (Container Vulnerability Scanner)
+        run: |
+          echo -e "\n\n4. TRIVY CONTAINER SCAN" >> security_report.txt
+          echo "----------------------------------------" >> security_report.txt
+          curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin
+          trivy image --format table --exit-code 0 --severity CRITICAL,HIGH app-backend >> security_report.txt 2>&1 || true
+
+      - name: Upload Security Report as Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Consolidated-Security-Report
+          path: security_report.txt
