@@ -7,12 +7,25 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-deploy:
+  build:
+    name: Build Docker Images
     runs-on: self-hosted
 
     steps:
       - name: Checkout Source Code
         uses: actions/checkout@v4
 
-      - name: Build and Deploy Application Stack
-        run: docker compose up -d --build
+      - name: Build Frontend and Backend Images
+        run: docker compose build
+
+  deploy:
+    name: Deploy Application Stack
+    needs: build
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+
+      - name: Deploy Database, Backend, Frontend
+        run: docker compose up -d
