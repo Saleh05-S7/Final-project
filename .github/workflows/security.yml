@@ -1,15 +1,19 @@
 name: Security Scanning Pipeline
 
 on:
-  push:
-    branches:
-      - main
+  workflow_run:
+    workflows: ["Build and Deploy Stack"]
+    types:
+      - completed
   workflow_dispatch:
 
 jobs:
   security-scans:
     name: Run Security Tools and Generate Report
     runs-on: ubuntu-latest 
+    
+    # Ensures it only runs if the build/deploy was successful
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
 
     steps:
       - name: Checkout Source Code
@@ -39,16 +43,16 @@ jobs:
           echo -e "\n\n2. BANDIT SAST SCAN" >> security_report.txt
           echo "----------------------------------------" >> security_report.txt
           pip install bandit
-          bandit -r . -ll -ii >> security_report.txt 2>&1 || true
+          bandit -r ./travel-jo-main -ll -ii >> security_report.txt 2>&1 || true
 
       - name: 3. Hadolint (Dockerfile Linting)
         run: |
           echo -e "\n\n3. HADOLINT DOCKERFILE SCAN" >> security_report.txt
           echo "----------------------------------------" >> security_report.txt
-          docker run --rm -i hadolint/hadolint < ./backend/Dockerfile >> security_report.txt 2>&1 || true
+          docker run --rm -i hadolint/hadolint < ./travel-jo-main/Dockerfile >> security_report.txt 2>&1 || true
 
       - name: Build Backend Image for Trivy
-        run: docker build -t app-backend ./backend
+        run: docker build -t app-backend ./travel-jo-main
 
       - name: 4. Trivy (Container Vulnerability Scanner)
         run: |
