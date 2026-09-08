@@ -1,0 +1,31 @@
+services:
+  vault:
+    image: hashicorp/vault:latest
+    container_name: vault
+    restart: unless-stopped
+
+    cap_add:
+      - IPC_LOCK
+
+    ports:
+      - "8200:8200"
+
+    environment:
+      VAULT_ADDR: "http://127.0.0.1:8200"
+
+    volumes:
+      - ./config.hcl:/vault/config.hcl:ro
+      - ./data:/vault/file
+      - ./keys:/vault/keys
+
+    command:
+      - server
+      - -config=/vault/config.hcl
+
+    networks:
+      - project-network
+
+networks:
+  project-network:
+    name: course-project-network
+    external: true

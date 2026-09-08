@@ -1,0 +1,138 @@
+[
+  {
+    "name": "Petra",
+    "location": "Ma'an Governorate",
+    "type": "Historical",
+    "rating": 4.9,
+    "image_url": "https://i.natgeofe.com/n/69e2cf60-ad59-4d20-bdd1-dc96f40ab4e8/petra-world-heritage-jordan_16x9.jpg?w=1200",
+    "country": "Jordan"
+  },
+  {
+    "name": "Amman Citadel",
+    "location": "Amman Governorate",
+    "type": "Historical",
+    "rating": 4.7,
+    "image_url": "https://i0.wp.com/www.touristjordan.com/wp-content/uploads/2017/12/amman-citadel-jordan-travel.jpg?fit=1805%2C1205&ssl=1s",
+    "country": "Jordan"
+  },
+  {
+    "name": "Jerash Archaeological Site",
+    "location": "Jerash Governorate",
+    "type": "Historical",
+    "rating": 4.8,
+    "image_url": "https://i.natgeofe.com/n/4389a2c8-f17f-44d5-8467-90eabd64a93d/09-welcoming-arms.jpg",
+    "country": "Jordan"
+  },
+  {
+    "name": "Roman Theater Amman",
+    "location": "Amman Governorate",
+    "type": "Historical",
+    "rating": 4.6,
+    "image_url": "https://utwadmin.b-cdn.net/tinymce/blog-posts/kt_docs_tinymce_article/bd495a30-905d-4e03-b11b-a79fefd7598f.jpg",
+    "country": "Jordan"
+  },
+  {
+    "name": "Ajloun Castle",
+    "location": "Ajloun Governorate",
+    "type": "Historical",
+    "rating": 4.7,
+    "image_url": "https://wowjordan.com/wp-content/uploads/2024/02/AjlunCastle1-900x500.jpg",
+    "country": "Jordan"
+  },
+  {
+    "name": "Kerak Castle",
+    "location": "Karak Governorate",
+    "type": "Historical",
+    "rating": 4.7,
+    "image_url": "https://www.zamantours.com/wp-content/uploads/2020/05/kerak-Castle-1.jpg",
+    "country": "Jordan"
+  },
+  {
+    "name": "Little Petra (Siq al-Barid)",
+    "location": "Ma'an Governorate",
+    "type": "Historical",
+    "rating": 4.8,
+    "image_url": "https://ancientjordan.com/wp-content/uploads/2025/02/Little-Petra-16s-768x513.webp",
+    "country": "Jordan"
+  },
+  {
+    "name": "Umm Qais (Gadara)",
+    "location": "Irbid Governorate",
+    "type": "Historical",
+    "rating": 4.8,
+    "image_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQByWPFkKCXiAaWzc_Ef0WwG8mz6IwTkVzV4NKhupw-yff3ZhVSpidyOcs&s=10",
+    "country": "Jordan"
+  },
+  {
+    "name": "Dead Sea Coast",
+    "location": "Balqa Governorate",
+    "type": "Wellness",
+    "rating": 4.9,
+    "image_url": "https://i0.wp.com/www.touristisrael.com/wp-content/uploads/2020/05/Dead-Sea-Beaches-scaled-e1589809735923.jpg?fit=1500%2C1000&ssl=1",
+    "country": "Jordan"
+  },
+  {
+    "name": "Ma'in Hot Springs",
+    "location": "Madaba Governorate",
+    "type": "Wellness",
+    "rating": 4.8,
+    "image_url": "https://i0.wp.com/www.touristjordan.com/wp-content/uploads/2017/11/maiin-hot-springs-jordan.jpg?fit=1642%2C1094&ssl=1",
+    "country": "Jordan"
+  },
+  {
+    "name": "Wadi Rum Protected Area",
+    "location": "Aqaba Governorate",
+    "type": "Nature",
+    "rating": 4.9,
+    "image_url": "https://utwadmin.b-cdn.net/tinymce/blog-posts/kt_docs_tinymce_article/48ec620a-68ba-41b3-9b88-bcab102750b1.jpg",
+    "country": "Jordan"
+  },
+  {
+    "name": "Wadi Mujib Biosphere Reserve",
+    "location": "Karak Governorate",
+    "type": "Nature",
+    "rating": 4.9,
+    "image_url": "https://www.jdtours.com/wp-content/w3-webp/uploads/2019/06/mujib-370x260.jpgw3.webp",
+    "country": "Jordan"
+  },
+  {
+    "name": "Dana Biosphere Reserve",
+    "location": "Tafilah Governorate",
+    "type": "Nature",
+    "rating": 4.8,
+    "image_url": "https://afar.brightspotcdn.com/dims4/default/a70f330/2147483647/strip/false/crop/1400x933+0+0/resize/1400x933!/quality/90/?url=https%3A%2F%2Fk3-prod-afar-media.s3.us-west-2.amazonaws.com%2Fbrightspot%2Ff4%2F11%2F5226cf9578b039e31a7d896ab46f%2Foriginal-435b217501f0fa8063d09b2a65422545.jpg",
+    "country": "Jordan"
+  },
+  {
+    "name": "Mount Nebo",
+    "location": "Madaba Governorate",
+    "type": "Religious",
+    "rating": 4.7,
+    "image_url": "https://www.rj.com/-/media/Explore-Jordan/Wellness-and-Relaxation/Zen-Dens/Mount-Nebo/mountnebo-image.jpg?h=1125&w=1500&rev=-1&hash=B6744DEE1D0D45E5262F299AB6D7F22D",
+    "country": "Jordan"
+  },
+  {
+    "name": "Bethany Beyond the Jordan",
+    "location": "Balqa Governorate",
+    "type": "Religious",
+    "rating": 4.8,
+    "image_url": "https://i0.wp.com/www.touristjordan.com/wp-content/uploads/2023/04/shutterstock_778102330-scaled.jpg?fit=5415%2C3615&ssl=1",
+    "country": "Jordan"
+  },
+  {
+    "name": "St. George Mosaic Church",
+    "location": "Madaba Governorate",
+    "type": "Religious",
+    "rating": 4.7,
+    "image_url": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2b/9d/0b/9f/caption.jpg?w=900&h=500&s=1",
+    "country": "Jordan"
+  },
+  {
+    "name": "Aqaba Marine Park & Beach",
+    "location": "Aqaba Governorate",
+    "type": "Resort",
+    "rating": 4.7,
+    "image_url": "https://aseza.jo/EBV4.0/Root_Storage/EN/EB_RelatedItems/164fee32-3b49-4202-a1f1-dae983b71f2c.png",
+    "country": "Jordan"
+  }
+]

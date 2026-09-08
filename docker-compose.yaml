@@ -1,0 +1,41 @@
+services:
+  database:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=travel_db
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - app_network
+
+  backend:
+    build:
+      context: ./travel-jo-main
+      dockerfile: Dockerfile
+    environment:
+      - DB_USER=postgres
+      - DB_PASS=postgres
+      - DB_NAME=travel_db
+    depends_on:
+      - database
+    networks:
+      - app_network
+
+  frontend:
+    build:
+      context: ./travel-jo-main/frontend
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - app_network
+
+volumes:
+  db_data:
+
+networks:
+  app_network:
